@@ -13,9 +13,6 @@ spec:
     - name: jenkins-slave-{{ BUILD_ID }}
       image: gcr.io/ansible-tower-engineering/jenkins-jnlp-docker-ansible:latest
       imagePullPolicy: Always
-      args: 
-        - "-url"
-        - "{{ jenkins_uri }}"
-        - "{{ jenkins_slave_secret }}"
-        - "{{ jenkins_slave_name }}"
+      command:
+        - "java -jar slave.jar -jnlpUrl {{ jenkins_uri }}/computer/test-slave/slave-agent.jnlp -jnlpCredentials {{ lookup('env', 'JENKINS_LOGIN_USER') }}:{{ lookup('env', 'JENKINS_LOGIN_PASSWORD') }}"
 
