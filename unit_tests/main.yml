@@ -1,10 +1,10 @@
 - hosts: localhost
   gather_facts: false
   tasks:
-    - name: "Generate kube pod file"
+    - name: "Generate kube pod description from ansible template"
       template:
         src: "templates/unit_tests_pod.yml.j2"
         dest: "./unit_tests_pod.yml"
 
-    - name: "Instantiate pods"
+    - name: "Instantiate kube pod"
       command: "kubectl create -f ./unit_tests_pod.yml"
