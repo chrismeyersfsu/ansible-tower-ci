@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: tower-unit-tests
+  name: tower-unit-tests-{{ BUILD_ID }}
   labels:
-    name: tower-unit-tests
+    name: tower-unit-tests-{{ BUILD_ID }}
 spec:
   containers:
-    - name: tower-unit-tests
+    - name: tower-unit-tests-{{ BUILD_ID }}
       image: gcr.io/ansible-tower-engineering/tools_tower_unit:latest
       imagePullPolicy: Always
 
-    - name: jenkins-slave
+    - name: jenkins-slave-{{ BUILD_ID }}
       image: gcr.io/ansible-tower-engineering/jenkins-jnlp-docker-ansible:latest
       imagePullPolicy: Always
       args: 

@@ -4,7 +4,7 @@
     - name: "Generate kube pod file"
       template:
         src: "templates/unit_tests_pod.yml.j2"
-        dest: "unit_tests_pod.yml"
+        dest: "./unit_tests_pod.yml"
 
     - name: "Instantiate pods"
       command: "kubectl create -f ./unit_tests_pod.yml"
