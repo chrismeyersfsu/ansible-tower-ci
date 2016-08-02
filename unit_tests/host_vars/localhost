@@ -1,0 +1,4 @@
+---
+jenkins_uri: "{{ lookup('env', 'JENKINS_URL') }}"
+jenkins_slave_secret: "{{ lookup('env', 'JENKINS_SECRET') }}"
+jenkins_slave_name: "{{ lookup('env', 'NODE_NAME') }}-1"
