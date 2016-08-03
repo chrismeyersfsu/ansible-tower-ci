@@ -7,14 +7,17 @@ metadata:
 spec:
   containers:
     - name: tower-unit-tests-{{ lookup('env', 'BUILD_ID') }}
-      image: gcr.io/ansible-tower-engineering/tools_tower_unit:latest
+      image: gcr.io/ansible-tower-engineering/tools_tower_unit:{{ lookup('env', 'BAKE_BUILD_ID') }}
       imagePullPolicy: Always
       command:
-        - /start_unit.sh
-        - /workspace/ansible-tower
+        - /ansible-tower/start_unit.sh
+        - /ansible-tower
+        - py.test
+        - --create-db
+        - awx/main/tests/unit/test_credentials.py
       volumeMounts:
         - name: tower-unit-tests-volume
-          mountPath: /workspace/ansible-tower
+          mountPath: /ansible-tower/reports/
 
     - name: tower-unit-tests-slave-{{ lookup('env', 'BUILD_ID') }}
       image: gcr.io/ansible-tower-engineering/jenkins-jnlp-docker-ansible:latest
@@ -29,7 +32,7 @@ spec:
         - "{{ lookup('env', 'JENKINS_LOGIN_USERNAME') }}:{{ lookup('env', 'JENKINS_LOGIN_PASSWORD') }}"
       volumeMounts:
         - name: tower-unit-tests-volume
-          mountPath: {{ lookup('env', 'WORKSPACE') }}
+          mountPath: /reports
 
   volumes:
     - name: tower-unit-tests-volume
