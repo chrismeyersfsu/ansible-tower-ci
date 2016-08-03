@@ -10,7 +10,7 @@ spec:
       image: gcr.io/ansible-tower-engineering/tools_tower_unit:{{ lookup('env', 'BAKE_BUILD_ID') }}
       imagePullPolicy: Always
       command:
-        - /ansible-tower/start_unit.sh
+        - /ansible-tower/tools/docker-compose/start_unit.sh
         - /ansible-tower
         - py.test
         - --create-db
