@@ -9,12 +9,9 @@ spec:
     - name: tower-unit-tests-{{ lookup('env', 'BUILD_ID') }}
       image: gcr.io/ansible-tower-engineering/tools_tower_unit:{{ lookup('env', 'BAKE_BUILD_ID') }}
       imagePullPolicy: Always
-      #command:
-      #  - /ansible-tower/tools/docker-compose/start_unit.sh
-      #  - /ansible-tower
-      #  - py.test
-      #  - --create-db
-      #  - awx/main/tests/unit/test_credentials.py
+      env:
+        - name: SKIP_SLOW_TESTS
+          value: "{{ lookup('env', 'SKIP_SLOW_TESTS') }}"
       volumeMounts:
         - name: tower-unit-tests-volume
           mountPath: /ansible-tower/reports/
