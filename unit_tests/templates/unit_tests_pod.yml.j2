@@ -21,4 +21,20 @@ spec:
         - --cov-report=xml
         - --junitxml=./reports/junit.xml
         - awx/main/tests/unit/test_credentials.py
+      volumeMounts:
+        - name: artifacts
+          mountPath: /ansible-tower/reports
 
+    - name: tower-unit-tests-artifacts-{{ lookup('env', 'BUILD_ID') }}
+      image: ubuntu
+      imagePullPolicy: Always
+      command: 
+        - sleep
+        - "600"
+      volumeMounts:
+        - name: artifacts
+          mountPath: /artifacts
+
+  volumes:
+    - name: artifacts
+      emptyDir: {}
