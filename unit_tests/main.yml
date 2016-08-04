@@ -3,8 +3,8 @@
   tasks:
     - name: "Generate kube pod description from ansible template"
       template:
-        src: "templates/unit_tests_pod.yml.j2"
-        dest: "./unit_tests_pod.yml"
+        src: "{{ playbook_dir }}/templates/unit_tests_pod.yml.j2"
+        dest: "{{ playbook_dir }}/unit_tests_pod.yml"
 
     - name: "Instantiate kube pod"
-      command: "kubectl create -f ./unit_tests_pod.yml"
+      command: "kubectl create -f {{ playbook_dir }}/unit_tests_pod.yml"
