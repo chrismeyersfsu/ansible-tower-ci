@@ -12,15 +12,15 @@ spec:
       env:
         - name: SKIP_SLOW_TESTS
           value: "{{ lookup('env', 'SKIP_SLOW_TESTS') }}"
-      command:
-        - /ansible-tower/tools/docker-compose/start_unit.sh
-        - /ansible-tower/
-        - py.test
-        - --create-db
-        - --cov=awx
-        - --cov-report=xml
-        - --junitxml=./reports/junit.xml
-        - awx/main/tests/unit/test_credentials.py
+#      command:
+#        - /ansible-tower/tools/docker-compose/start_unit.sh
+#        - /ansible-tower/
+#        - py.test
+#        - --create-db
+#        - --cov=awx
+#        - --cov-report=xml
+#        - --junitxml=./reports/junit.xml
+#        - awx/main/tests/unit/test_credentials.py
       volumeMounts:
         - name: artifacts
           mountPath: /ansible-tower/reports
