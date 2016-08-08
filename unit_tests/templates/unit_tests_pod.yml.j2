@@ -1,33 +1,44 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: tower-unit-tests-{{ lookup('env', 'BUILD_ID')|default('debug') }}
+  name: tower-unit-tests-{{ job_append }}
   labels:
-    name: tower-unit-tests-{{ lookup('env', 'BUILD_ID')|default('debug') }}
+    name: tower-unit-tests-{{ job_append }}
 spec:
   containers:
-    - name: tower-unit-tests-{{ lookup('env', 'BUILD_ID')|default('debug') }}
-      image: gcr.io/ansible-tower-engineering/tools_tower_unit:{{ lookup('env', 'BAKE_BUILD_ID')|default('latest') }}
+    - name: tower-unit-tests-{{ job_append }}
+      image: gcr.io/ansible-tower-engineering/tools_tower_unit:{{ image_tag }}
       imagePullPolicy: Always
       env:
         - name: SKIP_SLOW_TESTS
-          value: "{{ lookup('env', 'SKIP_SLOW_TESTS')|default(false) }}"
-#      command:
-#        - /ansible-tower/tools/docker-compose/start_unit.sh
-#        - /ansible-tower/
-#        - py.test
-#        - --create-db
-#        - --cov=awx
-#        - --cov-report=xml
-#        - --junitxml=./reports/junit.xml
-#        - awx/main/tests/unit/test_credentials.py
+          value: "{{ lookup('env', 'SKIP_SLOW_TESTS')|default('false', true) }}"
+        - name: TEST_AWS_ACCESS_KEY_ID
+          value: "{{ lookup('vault', 'secret/{{ vault_user }}/aws').access_key }}"
+        - name: TEST_AWS_SECRET_ACCESS_KEY
+          value: "{{ lookup('vault', 'secret/{{ vault_user }}/aws').secret_key }}"
+        - name: TEST_AWS_REGIONS
+          value: "all"
+        - name: TEST_RACKSPACE_USERNAME
+          value: "{{ lookup('vault', 'secret/{{ vault_user }}/rax').username }}"
+        - name: TEST_RACKSPACE_API_KEY
+          value: "{{ lookup('vault', 'secret/{{ vault_user }}/rax').api_key }}"
+        - name: TEST_RACKSPACE_REGIONS
+          value: "all"
+
+      command:
+        - /ansible-tower/tools/docker-compose/start_unit.sh
+        - /ansible-tower/
+        - py.test
+        - --create-db
+        - awx/main/tests/old/old/inventory.py::InventoryUpdatesTest::test_update_from_ec2
+        - awx/main/tests/old/old/inventory.py::InventoryUpdatesTest::test_update_from_rax
       volumeMounts:
         - name: artifacts
           mountPath: /ansible-tower/reports
       SecurityContext:
         privileged: true
 
-    - name: tower-unit-tests-artifacts-{{ lookup('env', 'BUILD_ID')|default('debug') }}
+    - name: tower-unit-tests-artifacts-{{ job_append }}
       image: ubuntu
       imagePullPolicy: Always
       command: 

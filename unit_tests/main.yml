@@ -1,4 +1,9 @@
 - hosts: localhost
+  vars:
+    vault_user: 'jenkins'
+    job_append: "{{ lookup('env', 'BUILD_ID')|default('debug') }}"  # TODO: generate rand instead of debug
+    image_tag: "{{ lookup('env', 'BAKE_BUILD_ID')|default('latest') }}"
+
   gather_facts: false
   tasks:
     - name: "Generate kube pod description from ansible template"
