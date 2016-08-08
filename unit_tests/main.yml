@@ -1,6 +1,6 @@
 - hosts: localhost
   vars:
-    vault_user: 'jenkins'
+    vault_user: 'cmeyers'
     job_append: "{{ lookup('env', 'BUILD_ID')|default('debug') }}"  # TODO: generate rand instead of debug
     image_tag: "{{ lookup('env', 'BAKE_BUILD_ID')|default('latest') }}"
 
