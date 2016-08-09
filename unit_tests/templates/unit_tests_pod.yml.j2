@@ -35,7 +35,7 @@ spec:
       volumeMounts:
         - name: artifacts
           mountPath: /ansible-tower/reports
-      SecurityContext:
+      securityContext:
         privileged: true
 
     - name: tower-unit-tests-artifacts-{{ job_append }}
