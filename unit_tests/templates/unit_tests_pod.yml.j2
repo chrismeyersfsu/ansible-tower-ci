@@ -25,13 +25,13 @@ spec:
         - name: TEST_RACKSPACE_REGIONS
           value: "all"
 
-      command:
-        - /ansible-tower/tools/docker-compose/start_unit.sh
-        - /ansible-tower/
-        - py.test
-        - --create-db
-        - awx/main/tests/old/inventory.py::InventoryUpdatesTest::test_update_from_ec2
-        - awx/main/tests/old/inventory.py::InventoryUpdatesTest::test_update_from_rax
+#      command:
+#        - /ansible-tower/tools/docker-compose/start_unit.sh
+#        - /ansible-tower/
+#        - py.test
+#        - --create-db
+#        - awx/main/tests/old/inventory.py::InventoryUpdatesTest::test_update_from_ec2
+#        - awx/main/tests/old/inventory.py::InventoryUpdatesTest::test_update_from_rax
       volumeMounts:
         - name: artifacts
           mountPath: /ansible-tower/reports
